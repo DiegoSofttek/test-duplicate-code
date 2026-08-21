@@ -1,0 +1,69 @@
+{
+  "duplicates": [
+    {
+      "firstFile": {
+        "end": 23,
+        "endLoc": {
+          "column": 5,
+          "line": 23,
+          "position": 711
+        },
+        "name": "carrito_a.py",
+        "start": 1,
+        "startLoc": {
+          "column": 0,
+          "line": 1,
+          "position": 0
+        }
+      },
+      "format": "python",
+      "fragment": "def calcular_impuestos_y_totales(carrito):\n    total_sin_iva = 0\n    productos_procesados = []\n    \n    for item in carrito:\n        if item.get(\"activo\", True):\n            precio = item.get(\"precio\", 0)\n            cantidad = item.get(\"cantidad\", 1)\n            subtotal = precio * cantidad\n            total_sin_iva += subtotal\n            \n            productos_procesados.append({\n                \"id\": item.get(\"id\"),\n                \"subtotal\": subtotal,\n                \"iva\": subtotal * 0.16,\n                \"total\": subtotal * 1.16\n            })\n            \n    return {\n        \"total_bruto\": total_sin_iva,\n        \"total_neto\": total_sin_iva * 1.16,\n        \"detalle\": productos_procesados\n    }",
+      "lines": 23,
+      "secondFile": {
+        "end": 23,
+        "endLoc": {
+          "column": 5,
+          "line": 23,
+          "position": 711
+        },
+        "name": "carrito_b.py",
+        "start": 1,
+        "startLoc": {
+          "column": 0,
+          "line": 1,
+          "position": 0
+        }
+      },
+      "tokens": 104
+    }
+  ],
+  "statistics": {
+    "detectionDate": "2026-08-21T19:43:01.168Z",
+    "formats": {
+      "python": {
+        "clones": 1,
+        "duplicatedLines": 22,
+        "duplicatedTokens": 104,
+        "lines": 46,
+        "newClones": 0,
+        "newDuplicatedLines": 0,
+        "percentage": 47.82608695652174,
+        "percentageTokens": 50.0,
+        "sources": 2,
+        "tokens": 208
+      }
+    },
+    "total": {
+      "clones": 1,
+      "duplicatedLines": 22,
+      "duplicatedTokens": 104,
+      "lines": 46,
+      "newClones": 0,
+      "newDuplicatedLines": 0,
+      "percentage": 47.82608695652174,
+      "percentageTokens": 50.0,
+      "sources": 2,
+      "tokens": 208
+    }
+  }
+}

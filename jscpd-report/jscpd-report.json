@@ -1,0 +1,69 @@
+{
+  "duplicates": [
+    {
+      "firstFile": {
+        "end": 91,
+        "endLoc": {
+          "column": 5,
+          "line": 91,
+          "position": 3405
+        },
+        "name": "carrito_a.py",
+        "start": 1,
+        "startLoc": {
+          "column": 0,
+          "line": 1,
+          "position": 0
+        }
+      },
+      "format": "python",
+      "fragment": "import datetime\n\ndef procesar_orden_compra(carrito, cliente, configuracion_tienda):\n    total_sin_iva = 0\n    total_descuentos = 0\n    peso_total = 0\n    productos_procesados = []\n    \n    # 1. Procesamiento de productos y subtotales\n    for item in carrito:\n        if not item.get(\"activo\", True):\n            continue\n            \n        precio_base = item.get(\"precio\", 0)\n        cantidad = item.get(\"cantidad\", 1)\n        peso = item.get(\"peso_kg\", 0)\n        descuento_porcentaje = item.get(\"descuento\", 0)\n        \n        # Calcular montos del item\n        subtotal_item = precio_base * cantidad\n        descuento_item = subtotal_item * (descuento_porcentaje / 100.0)\n        subtotal_con_descuento = subtotal_item - descuento_item\n        \n        # Impuestos (ej. 16% IVA normal, 8% frontera)\n        tasa_iva = 0.08 if configuracion_tienda.get(\"zona_fronteriza\") else 0.16\n        iva_item = subtotal_con_descuento * tasa_iva\n        \n        total_item = subtotal_con_descuento + iva_item\n        \n        # Acumuladores\n        total_sin_iva += subtotal_item\n        total_descuentos += descuento_item\n        peso_total += (peso * cantidad)\n        \n        productos_procesados.append({\n            \"sku\": item.get(\"sku\", \"UNKNOWN\"),\n            \"nombre\": item.get(\"nombre\", \"Producto Sin Nombre\"),\n            \"precio_unitario\": precio_base,\n            \"cantidad\": cantidad,\n            \"subtotal\": subtotal_item,\n            \"descuento_aplicado\": descuento_item,\n            \"iva\": iva_item,\n            \"total_final\": total_item\n        })\n    \n    # 2. Cálculo de costo de envío\n    costo_envio = 0\n    if peso_total > 0:\n        tarifa_base = configuracion_tienda.get(\"tarifa_envio_base\", 150.0)\n        costo_envio = tarifa_base\n        \n        # Recargo por exceso de peso (más de 10kg)\n        if peso_total > 10.0:\n            kilos_extra = peso_total - 10.0\n            costo_envio += (kilos_extra * 15.50) # $15.50 por kilo extra\n            \n        # Envío gratis si la compra supera cierto monto\n        monto_minimo_envio_gratis = configuracion_tienda.get(\"minimo_envio_gratis\", 2000.0)\n        if (total_sin_iva - total_descuentos) >= monto_minimo_envio_gratis:\n            costo_envio = 0\n    \n    # 3. Totales finales\n    subtotal_general = total_sin_iva - total_descuentos\n    iva_general = sum(p[\"iva\"] for p in productos_procesados)\n    gran_total = subtotal_general + iva_general + costo_envio\n    \n    # 4. Generación de recibo\n    fecha_actual = datetime.datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n    numero_orden = f\"ORD-{cliente.get('id', '000')}-{int(datetime.datetime.now().timestamp())}\"\n    \n    return {\n        \"metadata\": {\n            \"fecha\": fecha_actual,\n            \"orden\": numero_orden,\n            \"cliente_id\": cliente.get(\"id\"),\n            \"cliente_email\": cliente.get(\"email\")\n        },\n        \"resumen_financiero\": {\n            \"subtotal_bruto\": round(total_sin_iva, 2),\n            \"total_descuentos\": round(total_descuentos, 2),\n            \"subtotal_neto\": round(subtotal_general, 2),\n            \"total_iva\": round(iva_general, 2),\n            \"costo_envio\": round(costo_envio, 2),\n            \"gran_total\": round(gran_total, 2)\n        },\n        \"logistica\": {\n            \"peso_total_kg\": round(peso_total, 2),\n            \"requiere_envio\": peso_total > 0\n        },\n        \"detalle_articulos\": productos_procesados\n    }",
+      "lines": 91,
+      "secondFile": {
+        "end": 91,
+        "endLoc": {
+          "column": 5,
+          "line": 91,
+          "position": 3405
+        },
+        "name": "carrito_b.py",
+        "start": 1,
+        "startLoc": {
+          "column": 0,
+          "line": 1,
+          "position": 0
+        }
+      },
+      "tokens": 419
+    }
+  ],
+  "statistics": {
+    "detectionDate": "2026-08-21T20:10:49.647Z",
+    "formats": {
+      "python": {
+        "clones": 1,
+        "duplicatedLines": 90,
+        "duplicatedTokens": 419,
+        "lines": 182,
+        "newClones": 0,
+        "newDuplicatedLines": 0,
+        "percentage": 49.45054945054945,
+        "percentageTokens": 50.0,
+        "sources": 2,
+        "tokens": 838
+      }
+    },
+    "total": {
+      "clones": 1,
+      "duplicatedLines": 90,
+      "duplicatedTokens": 419,
+      "lines": 182,
+      "newClones": 0,
+      "newDuplicatedLines": 0,
+      "percentage": 49.45054945054945,
+      "percentageTokens": 50.0,
+      "sources": 2,
+      "tokens": 838
+    }
+  }
+}

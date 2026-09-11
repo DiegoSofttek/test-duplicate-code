@@ -43,11 +43,11 @@ def validar_y_autenticar_usuario(datos_login, base_datos, configuracion_segurida
         # Registrar intento fallido
         base_datos.incrementar_intento_fallido(usuario)
         return {"exito": False, "error": "Credenciales inválidas", "codigo": 401}
-        
+
     # 4. Generación de sesión
     base_datos.resetear_intentos_fallidos(usuario)
     token_sesion = hashlib.md5(f"{usuario}{datetime.datetime.now().timestamp()}".encode()).hexdigest()
-    
+
     return {
         "exito": True,
         "mensaje": "Autenticación exitosa",

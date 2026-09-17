@@ -5,7 +5,7 @@ def procesar_orden_compra(carrito, cliente, configuracion_tienda):
     total_descuentos = 0
     peso_total = 0
     productos_procesados = []
-    
+
     # 1. Procesamiento de productos y subtotales
     for item in carrito:
         if not item.get("activo", True):

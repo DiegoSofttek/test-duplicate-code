@@ -6,7 +6,7 @@ def validar_y_autenticar_usuario(datos_login, base_datos, configuracion_segurida
     # 1. Validación de campos básicos
     usuario = datos_login.get("username", "").strip()
     password = datos_login.get("password", "")
-    
+
     if not usuario or not password:
         return {"exito": False, "error": "Usuario y contraseña son requeridos", "codigo": 400}
         

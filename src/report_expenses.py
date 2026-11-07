@@ -1,10 +1,6 @@
 from database import get_connection, fetch_data
 from logger import log_activity
 
-def get_connection():
-    print("Conectando a la base de datos principal...")
-    return {"status": "connected", "db_name": "finanzas_prod"}
-
 def generate_expenses_report():
     log_activity("ReportExpenses", "Iniciando generación de reporte de gastos")
     conn = get_connection()
